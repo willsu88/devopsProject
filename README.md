@@ -1,6 +1,7 @@
 ## Motivation Behind Project
-I've been particularly interested in CI/CD pipelines recently, especially as I touched upon them quite often in my previous job at Tableau, Salesforce. At the time, the CI/CD tool we used was GitLab CI/CD. I've also had to deal with Docker containers here and there before, but never had to manually create Dockerfile's. AWS was another tool I used often at school and at Tableau. In this project, I want to combine all of these tools and technologies together and try to build my own end-to-end pipeline - from pulling new commits and auto-builds to deploying them onto a docker container. 
+I've been particularly interested in CI/CD pipelines, especially as I touched upon them quite often in my previous job at Tableau, Salesforce. At the time, the CI/CD tool we used was GitLab CI/CD. I've also had to deal with Docker containers here and there before, but never had to manually create Dockerfile's. AWS was another tool I used often at school and at Tableau. In this project, I want to combine all of these tools and technologies together and try to build my own end-to-end pipeline - from pulling new commits and auto-builds to deploying them onto a docker container. Here's the general architecture of the project:
 
+![alt text](/images/architecture.png)
 ## Step 1: Jenkins, Maven, Git
 Jenkins was the tool I chose to auto-build and deploy my code. For this project, the Java code itself isn't too important. It's simply a Hello World kind of HTML page. I am merely using it to test that whennever I make a new commit, my deployed webpage is automatically reflected as well.
 
@@ -42,8 +43,4 @@ A note: We have to make sure to delete old containers in this command too, becec
 
 Now my pipeline 1. pulls from Git 2. builds using Maven 3. deploys and sent to a Docker host 4. creates a Docker container with the necessary Tomcat dependencies to host my code. Nice! 
 
-![alt text](/images/jenkins-docker-cmds.png)
-
-
-
-
+![alt text](/images/jenkin-docker-cmds.png)
