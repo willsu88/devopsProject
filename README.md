@@ -10,6 +10,7 @@ On the Jenkins GUI, I downloaded a Maven plugin. This is the tool Jenkins will u
 
 Then I created a new job on Jenkins. This job 1. pulls code from the Git repo, 2. builds the Java code with the Maven goal `clean install`. I ran it, and verified the a .war file was successfully built.
 
+![alt text](/images/jenkins-build.png)
 ## Step 2: Tomcat | Automation
 Apache Tomcat is a free and open-source implementation of the Jakarta Servlet, Jakarta Expression Language, and WebSocket technologies. It provides a "pure Java" HTTP web server environment in which Java code can also run. I will be using it to run my Java webpage.
 
@@ -30,14 +31,18 @@ RUN cp -R /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps
 COPY ./*.war /usr/local/tomcat/webapps
 ```
 
-This copies the artifact war file sent by Jenkins in our docker host to our docker container. I've configured Jenkins to send the built war file to EC2 instance via public SSH with password auth (there are probably other methods to do this but for now its okay). Here I had to configure a new `dockeradmin` user for the docker EC2 instance. This is for Jenkins to login to our EC2 instance. (By default EC2 doesn't allow password auth ssh. It's probably better to use a SSH key for better safety)
+This copies the artifact war file sent by Jenkins in our docker host to our docker container. I've configured Jenkins to send the built war file to EC2 instance via public SSH with password auth (there are probably other methods to do this but for now its okay). Here I had to configure a new `dockeradmin` user for the docker EC2 instance. This is for Jenkins to login to our EC2 instance. (By default EC2 doesn't allow password auth ssh. It's probably better to use a SSH key for better safety). I verified that it is indeed a new .war file here every time I push new code here.
 
-Then we configure Jenkins to execute some docker commands that will help me:
+![alt text](/images/docker-new-war.png)
+
+Then I configured Jenkins to execute some docker commands that will help me:
 1. build a docker image using that war file
 2. build a docker container using image
 A note: We have to make sure to delete old containers in this command too, bececause we are constantly using the same container name, which doesn't work for Docker.
 
+Now my pipeline 1. pulls from Git 2. builds using Maven 3. deploys and sent to a Docker host 4. creates a Docker container with the necessary Tomcat dependencies to host my code. Nice! 
 
+![alt text](/images/jenkins-docker-cmds.png)
 
 
 
